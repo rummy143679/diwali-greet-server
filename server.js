@@ -7,6 +7,7 @@ const { userRouter } = require("./routers/user.router");
 const bodyParser = require("body-parser");
 const { geminiRouter } = require("./routers/gemini.router");
 var cookieParser = require("cookie-parser");
+const path = require("path");
 
 dotenv.config();
 
