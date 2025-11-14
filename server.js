@@ -13,13 +13,13 @@ dotenv.config();
 // middlwares
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://diwali-greeting-clinet.netlify.app/"],
     credentials: true, // Allow cookies
   })
 );
 
-if(process.env.NODE_ENV === "production"){
-  const fronendPath = path.join(__dirname,"../diwali-fronend/dist");
+if (process.env.NODE_ENV === "production") {
+  const fronendPath = path.join(__dirname, "../diwali-fronend/dist");
   app.use(express.static(fronendPath));
 
   app.get((req, res) => {
