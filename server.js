@@ -14,7 +14,7 @@ dotenv.config();
 // middlwares
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://diwali-greeting-clinet.netlify.app/"],
+    origin: ["http://localhost:5173", "https://diwali-greeting-client.netlify.app"],
     credentials: true, // Allow cookies
   })
 );
