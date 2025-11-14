@@ -6,7 +6,7 @@ userRouter.post("/createUser", (req, res) => {
   try {
     UserModel.create(req.body)
       .then((response) => {
-        res.status(201).json({
+        return res.status(201).json({
           Message: "User is created successfully",
           Status: "success",
           data: response,
@@ -14,13 +14,13 @@ userRouter.post("/createUser", (req, res) => {
       })
       .catch((error) => {
         console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
           Message: "Something went Wrong",
           Status: `error ${error}`,
         });
       });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ Message: "Something went Wrong", Status: `error ${error}` });
   }
@@ -35,16 +35,21 @@ userRouter.post("/login", async (req, res) => {
     }
     const user = await UserModel.findOne({ email });
     if (!(user && (await user.comparePassword(password)))) {
-      res.status(401).json({ Message: "Email or password do not match" });
+      return res.status(401).json({ Message: "Email or password do not match" });
     }
     const token = await user.generateJWTToken();
-    res.cookie("token", token);
-    res.status(200).json({
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,          // Netlify uses HTTPS
+      sameSite: "None",      // REQUIRED for cross-site cookies
+      path: "/",
+    });
+    return res.status(200).json({
       Message: "User logged in successfully",
       success: true,
     });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ Message: "Something went Wrong", Status: `error ${error}` });
   }
